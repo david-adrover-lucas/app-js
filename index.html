@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="description" content="Aplicación web moderna, responsive y preparada para AppGeyser con Firebase." />
+    <title>Gestión Móvil</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">GM</div>
+          <div>
+            <h1>Gestión Móvil</h1>
+            <p>Web profesional para móviles</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button id="themeToggle" class="icon-btn" type="button" aria-label="Cambiar tema">☀️</button>
+          <button id="logoutBtn" class="ghost-btn hidden" type="button">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="authView" class="panel auth-panel">
+          <div class="auth-card">
+            <div class="auth-intro">
+              <p class="eyebrow">Firebase + AppGeyser</p>
+              <h2>Tu app lista para movilizar procesos</h2>
+              <p>Autenticación, almacenamiento y gestión de registros desde una sola web ligera y responsive.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Opciones de acceso">
+              <button class="tab active" type="button" data-auth-tab="login">Iniciar sesión</button>
+              <button class="tab" type="button" data-auth-tab="register">Registrarse</button>
+              <button class="tab" type="button" data-auth-tab="reset">Recuperar</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+              <label>
+                Correo
+                <input type="email" id="loginEmail" placeholder="tu@email.com" required />
+              </label>
+              <label>
+                Contraseña
+                <input type="password" id="loginPassword" placeholder="••••••••" required />
+              </label>
+              <button class="primary-btn" type="submit">Entrar</button>
+            </form>
+
+            <form id="registerForm" class="auth-form hidden">
+              <label>
+                Correo
+                <input type="email" id="registerEmail" placeholder="tu@email.com" required />
+              </label>
+              <label>
+                Contraseña
+                <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required minlength="6" />
+              </label>
+              <button class="primary-btn" type="submit">Crear cuenta</button>
+            </form>
+
+            <form id="resetForm" class="auth-form hidden">
+              <label>
+                Correo
+                <input type="email" id="resetEmail" placeholder="tu@email.com" required />
+              </label>
+              <button class="primary-btn" type="submit">Enviar enlace</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="dashboardView" class="hidden">
+          <div class="hero card">
+            <p class="eyebrow">Panel principal</p>
+            <h2>Hola, <span id="userName">usuario</span></h2>
+            <p>Gestiona tus registros, sube archivos y mantén todo sincronizado con Firebase.</p>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="card form-card">
+              <div class="section-head">
+                <h3 id="formTitle">Nuevo registro</h3>
+                <button id="cancelEditBtn" class="ghost-btn hidden" type="button">Cancelar</button>
+              </div>
+              <form id="itemForm" class="stacked-form">
+                <label>
+                  Título
+                  <input id="itemTitle" type="text" maxlength="80" required />
+                </label>
+                <label>
+                  Descripción
+                  <textarea id="itemDescription" rows="4" maxlength="220" required></textarea>
+                </label>
+                <label>
+                  Imagen (opcional)
+                  <input id="itemImage" type="file" accept="image/*" />
+                </label>
+                <button class="primary-btn" type="submit">Guardar registro</button>
+              </form>
+            </section>
+
+            <section class="card list-card">
+              <div class="section-head">
+                <h3>Registros</h3>
+                <button id="refreshItems" class="ghost-btn" type="button">Actualizar</button>
+              </div>
+              <div id="emptyState" class="empty-state">Aún no hay registros. Crea el primero desde aquí.</div>
+              <div id="itemsList" class="items-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(console.error);
+        });
+      }
+    </script>
+  </body>
+</html>
